@@ -1,0 +1,60 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: main
+  namespace: postgres
+spec:
+  instances: 2
+
+  primaryUpdateStrategy: unsupervised
+
+  postgresql:
+    parameters:
+      timezone: ${TIMEZONE}
+
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: main-cluster-superuser
+
+  storage:
+    size: 30Gi
+
+  monitoring:
+    enablePodMonitor: false
+
+  # bootstrap:
+  #   recovery:
+  #     source: postgres-backup
+
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore:
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      destinationPath: s3://postgresql/
+      endpointURL: ${S3_HOST}
+      serverName: postgres-server
+      s3Credentials:
+        accessKeyId:
+          name: postgres-secrets
+          key: S3_ACCESS_KEY
+        secretAccessKey:
+          name: postgres-secrets
+          key: S3_SECRET_KEY
+
+  externalClusters:
+    - name: postgres-backup
+      barmanObjectStore:
+        wal:
+          compression: bzip2
+          maxParallel: 8
+        destinationPath: s3://postgresql/
+        endpointURL: ${S3_HOST}
+        s3Credentials:
+          accessKeyId:
+            name: postgres-secrets
+            key: S3_ACCESS_KEY
+          secretAccessKey:
+            name: postgres-secrets
+            key: S3_SECRET_KEY
