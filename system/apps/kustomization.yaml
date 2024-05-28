@@ -7,6 +7,7 @@ resources:
 - ./loaders/cert-manager/cert-manager.yaml
 - ./loaders/cert-manager/issuers.yaml
 - ./loaders/home.yaml
+- ./loaders/immich.yaml
 - ./loaders/ingress.yaml
 - ./loaders/postgres/db.yaml
 - ./loaders/postgres/cluster.yaml

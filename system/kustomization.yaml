@@ -5,6 +5,7 @@ resources:
 - ./helm/bitnami-charts.yaml
 - ./helm/cloudnative-pg.yaml
 - ./helm/hajimari.yaml
+- ./helm/immich-charts.yaml
 - ./helm/ingress-nginx.yaml
 - ./helm/jetstack-charts.yaml
 - ./helm/runix.yaml

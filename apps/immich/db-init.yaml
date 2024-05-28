@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-init
+  namespace: immich
+data:
+  # See https://immich.app/docs/administration/postgres-standalone/#without-superuser-permission
+  immich.sql: |
+    \c immich
+    BEGIN;
+    CREATE EXTENSION vectors;
+    CREATE EXTENSION earthdistance CASCADE;
+    ALTER DATABASE immich SET search_path TO "$user", public, vectors;
+    ALTER SCHEMA vectors OWNER TO immich;
+    ALTER VIEW vectors.pg_vector_index_stat OWNER TO immich;
+    COMMIT;
