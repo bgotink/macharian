@@ -2,14 +2,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: immich
+  name: mongodb
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./apps/immich
+  path: ./apps/mongodb
   dependsOn:
-  - name: postgres-cluster
-  - name: redis
+  - name: cert-manager-issuers
   prune: true
   sourceRef:
     kind: GitRepository

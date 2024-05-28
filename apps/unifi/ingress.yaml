@@ -1,0 +1,34 @@
+# Doesn't work, ingress-nginx keeps logging
+#
+#     http: TLS handshake error from <ip>:<port>: remote error: tls: unknown certificate
+#
+# so for now send hajimari directly to the IP of the unifi service...
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    hajimari.io/appName: Network
+    hajimari.io/enable: "true"
+    hajimari.io/icon: mdi:lan
+    hajimari.io/instance: admin
+    hajimari.io/url: "${UNIFI_HOST}"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+  labels:
+    app.kubernetes.io/instance: unifi-controller
+    app.kubernetes.io/name: unifi-controller
+  name: unifi-controller
+  namespace: unifi
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: unifi.${SECRET_HOST}
+    http:
+      paths:
+      - backend:
+          service:
+            name: unifi-controller
+            port:
+              number: 8443
+        path: /
+        pathType: Prefix

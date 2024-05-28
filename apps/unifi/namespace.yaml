@@ -4,4 +4,4 @@ kind: Namespace
 metadata:
   labels:
     kustomize.toolkit.fluxcd.io/prune: disabled
-  name: unifi
+  name: redis
