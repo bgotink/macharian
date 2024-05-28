@@ -11,3 +11,4 @@ resources:
 - ./loaders/postgres/db.yaml
 - ./loaders/postgres/cluster.yaml
 - ./loaders/postgres/pgadmin.yaml
+- ./loaders/redis.yaml
