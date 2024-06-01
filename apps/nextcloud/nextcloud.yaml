@@ -62,6 +62,9 @@ spec:
     phpClientHttpsFix:
       enabled: true
 
+    cron:
+      enabled: true
+
     persistence:
       enabled: true
       nextcloudData:
