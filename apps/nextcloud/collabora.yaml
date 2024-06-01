@@ -1,0 +1,66 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: collabora
+  namespace: nextcloud
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: collabora-online
+      version: 1.1.16
+      sourceRef:
+        kind: HelmRepository
+        name: collabora-online
+        namespace: flux-system
+
+  install:
+    remediation:
+      retries: 3
+
+  upgrade:
+    remediation:
+      retries: 3
+
+  values:
+    autoscaling:
+      enabled: false
+
+    collabora:
+      server_name: document-editor.${SECRET_HOST}
+      aliasgroups:
+        - host: documents.${SECRET_HOST}
+      extra_params: >-
+        --o:ssl.enable=false
+        --o:ssl.termination=true
+        --o:remote_font_config.url=https://documents.${SECRET_HOST}/apps/richdocuments/settings/fonts.json
+
+      existingSecret:
+        secretName: collabora-admin-secrets
+        usernameKey: username
+        passwordKey: password
+
+      env:
+        - name: dictionaries
+          value: en_GB en_US fr_BE de_DE nl_BE
+
+    ingress:
+      enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+        nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+        nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+      hosts:
+        - host: document-editor.${SECRET_HOST}
+          paths:
+            - path: /
+              pathType: Prefix
+
+    resources:
+      limits:
+        cpu: "3000m"
+        memory: "4Gi"
+      requests:
+        cpu: "1800m"
+        memory: "2Gi"

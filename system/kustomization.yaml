@@ -4,6 +4,7 @@ resources:
 - ./apps.yaml
 - ./helm/bitnami-charts.yaml
 - ./helm/cloudnative-pg.yaml
+- ./helm/collabora-online.yaml
 - ./helm/hajimari.yaml
 - ./helm/immich-charts.yaml
 - ./helm/ingress-nginx.yaml

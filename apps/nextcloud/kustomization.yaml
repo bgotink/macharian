@@ -4,3 +4,5 @@ resources:
 - ./namespace.yaml
 - ./secrets.yaml
 - ./nextcloud.yaml
+- ./collabora-secrets.yaml
+- ./collabora.yaml

@@ -1,0 +1,10 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: collabora-online
+  namespace: flux-system
+spec:
+  interval: 2h
+  url: https://collaboraonline.github.io/online/
+  timeout: 3m
