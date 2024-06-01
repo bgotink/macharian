@@ -89,7 +89,7 @@ spec:
             hajimari.io/enable: "true"
             hajimari.io/appName: Photos
             hajimari.io/instance: "user"
-            hajimari.io/icon: heroicons:photo
+            hajimari.io/icon: simple-icons:immich
 
           hosts:
             - host: "photos.${SECRET_HOST}"

@@ -8,4 +8,5 @@ resources:
 - ./helm/immich-charts.yaml
 - ./helm/ingress-nginx.yaml
 - ./helm/jetstack-charts.yaml
+- ./helm/nextcloud.yaml
 - ./helm/runix.yaml

@@ -10,6 +10,7 @@ resources:
 - ./loaders/immich.yaml
 - ./loaders/ingress.yaml
 - ./loaders/mongodb.yaml
+- ./loaders/nextcloud.yaml
 - ./loaders/postgres/db.yaml
 - ./loaders/postgres/cluster.yaml
 - ./loaders/postgres/pgadmin.yaml
