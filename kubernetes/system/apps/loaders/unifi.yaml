@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./apps/unifi
+  path: ./kubernetes/apps/unifi
   dependsOn:
   - name: mongodb
   prune: true

@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./system/apps
+  path: ./kubernetes/system/apps
   prune: true
   sourceRef:
     kind: GitRepository

@@ -2,13 +2,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: postgres-cluster
+  name: mongodb
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./apps/postgres/cluster
+  path: ./kubernetes/apps/mongodb
   dependsOn:
-  - name: postgres-db
+  - name: cert-manager-issuers
   prune: true
   sourceRef:
     kind: GitRepository

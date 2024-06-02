@@ -1,8 +1,5 @@
 ---
 creation_rules:
-  - path_regex: apps/.*[/-]secrets\.ya?ml
-    encrypted_regex: '^(data|stringData)$'
-    age: age1w2e5q8e8uz65qsg2j05kj5lppxg0jakg39cfpqagyly5jcccxeaqrgpkmh
-  - path_regex: system/.*[/-]secrets\.ya?ml
+  - path_regex: kubernetes/.*[/-]secrets\.ya?ml
     encrypted_regex: '^(data|stringData)$'
     age: age1w2e5q8e8uz65qsg2j05kj5lppxg0jakg39cfpqagyly5jcccxeaqrgpkmh

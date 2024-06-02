@@ -2,14 +2,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: nextcloud
+  name: home
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./apps/nextcloud
+  path: ./kubernetes/apps/home
   dependsOn:
-  - name: postgres-cluster
-  - name: redis
+  - name: ingress
   prune: true
   sourceRef:
     kind: GitRepository

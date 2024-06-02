@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended",
-		"docker:enableMajor",
+    "docker:enableMajor",
     "replacements:k8s-registry-move",
     ":dependencyDashboard",
     ":semanticCommits",
@@ -17,23 +17,20 @@
   "ignorePaths": ["**/*secrets.yaml"],
   "flux": {
     "fileMatch": [
-      "(^|/)apps/.+\\.ya?ml$",
-      "(^|/)systems/.+\\.ya?ml$",
-      "(^|/)cluster/.+\\.ya?ml$"
+      "(^|/)kubernetes/.+\\.yaml$",
+      "(^|/)clusters/cytheris/.+\\.yaml$"
     ]
   },
   "helm-values": {
     "fileMatch": [
-      "(^|/)apps/.+\\.ya?ml$",
-      "(^|/)systems/.+\\.ya?ml$",
-      "(^|/)cluster/.+\\.ya?ml$"
+      "(^|/)kubernetes/.+\\.yaml$",
+      "(^|/)clusters/cytheris/.+\\.yaml$"
     ]
   },
   "kubernetes": {
     "fileMatch": [
-      "(^|/)apps/.+\\.ya?ml$",
-      "(^|/)systems/.+\\.ya?ml$",
-      "(^|/)cluster/.+\\.ya?ml$"
+      "(^|/)kubernetes/.+\\.yaml$",
+      "(^|/)clusters/cytheris/.+\\.yaml$"
     ]
   }
 }

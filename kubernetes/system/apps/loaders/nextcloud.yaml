@@ -2,13 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: ingress
+  name: nextcloud
   namespace: flux-system
 spec:
   interval: 10m
-  path: ./apps/ingress
+  path: ./kubernetes/apps/nextcloud
   dependsOn:
-  - name: cert-manager-issuers
+  - name: postgres-cluster
+  - name: redis
   prune: true
   sourceRef:
     kind: GitRepository
