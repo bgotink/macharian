@@ -104,17 +104,17 @@ spec:
       resources:
         requests:
           cpu: 100m
-          memory: 900M
+          memory: 1Gi
         limits:
-          memory: 900M
+          memory: 2Gi
 
     machine-learning:
       resources:
         requests:
           cpu: 100m
-          memory: 2048Mi
+          memory: 2Gi
         limits:
-          memory: 2048Mi
+          memory: 2Gi
 
       probes:
         liveness:
