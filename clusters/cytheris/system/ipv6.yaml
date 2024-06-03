@@ -1,0 +1,8 @@
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: ipv6-addresspool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 2a02:1811:c04:4aa:dead:beef::/48
