@@ -1,0 +1,126 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: haos
+  namespace: haos
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.2.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+
+  maxHistory: 3
+
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+
+  uninstall:
+    keepHistory: false
+
+  values:
+    defaultPodOptions:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: "OnRootMismatch"
+
+    controllers:
+      main:
+        type: statefulset
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/home-assistant
+              tag: 2024.5.5@sha256:7c9514d573dddae6eaa0ec452e70f52a3e789cb6f348cb69d4fecc2bfa3dc10e
+              pullPolicy: IfNotPresent
+
+            env:
+              TZ: "${TIMEZONE}"
+              HASS_HTTP_TRUSTED_PROXY_1: ${SECRET_NETWORK}
+              HASS_HTTP_TRUSTED_PROXY_2: 10.0.0.0/8
+          # Configure the code-server sidecar
+          code:
+            dependsOn: main
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.89.1
+            args:
+              - --auth
+              - "none"
+              - --user-data-dir
+              - "/config/.vscode"
+              - --extensions-dir
+              - "/config/.vscode"
+              - --port
+              - "8081"
+              - "/config"
+
+    service:
+      # Configure a service for the main application
+      main:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 8123
+      # Configure a service for the code-server sidecar
+      code:
+        controller: main
+        type: ClusterIP
+        ports:
+          http:
+            port: 8081
+
+    ingress:
+      main:
+        hosts:
+          - host: home-assistant.${SECRET_HOST}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: main
+                  port: http
+      code:
+        hosts:
+          - host: home-assistant-config.${SECRET_HOST}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  identifier: code
+                  port: http
+
+    persistence:
+      config:
+        accessMode: ReadWriteOnce
+        size: 500Mi
+        globalMounts:
+          - path: /config
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
+      tts:
+        type: emptyDir
+        globalMounts:
+          - path: /config/tts
+      tmp:
+        type: emptyDir

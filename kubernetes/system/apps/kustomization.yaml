@@ -6,6 +6,7 @@ resources:
 # Loaders
 - ./loaders/cert-manager/cert-manager.yaml
 - ./loaders/cert-manager/issuers.yaml
+- ./loaders/haos.yaml
 - ./loaders/home.yaml
 - ./loaders/immich.yaml
 - ./loaders/ingress.yaml

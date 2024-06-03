@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - ./apps.yaml
 - ./helm/bitnami-charts.yaml
+- ./helm/bjw-s.yaml
 - ./helm/cloudnative-pg.yaml
 - ./helm/collabora-online.yaml
 - ./helm/hajimari.yaml
