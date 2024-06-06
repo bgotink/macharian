@@ -20,6 +20,13 @@ spec:
         app.kubernetes.io/name: unifi-controller
     spec:
       serviceAccountName: unifi-controller
+      initContainers:
+        - name: wait-for-mongodb
+          image: alpine
+          command:
+            - sh
+            - -c
+            - 'until nslookup mongodb.mongodb.svc.cluster.local; do echo waiting for mongodb; sleep 2; done;'
       containers:
         - name: unifi-controller
           image: lscr.io/linuxserver/unifi-network-application:latest
