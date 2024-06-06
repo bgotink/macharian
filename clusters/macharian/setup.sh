@@ -129,3 +129,29 @@ if ! has_vm gallosque; then
 		--vcpus=1 \
 		--memory 4096
 fi
+
+if ! has_vm persepolis; then
+	mkdir /home/haos
+	pushd /home/haos >/dev/null 2>&1
+
+	HAOS_VERSION=12.3
+	wget "https://github.com/home-assistant/operating-system/releases/download/$HAOS_VERSION/haos_ova-$HAOS_VERSION.qcow2.xz"
+	xz -d "haos_ova-$HAOS_VERSION.qcow2.xz"
+
+	virsh pool-create-as --name persepolis-pool --type dir --target /home/haos
+
+	virt-install \
+		--import \
+		--name persepolis \
+		--memory 4096 \
+		--vcpus 1 \
+		--cpu host \
+		--disk "/home/haos/haos_ova-$HAOS_VERSION.qcow2,format=qcow2,bus=virtio" \
+		--network bridge=br0 \
+		--osinfo detect=on,require=off \
+		--graphics none \
+		--noautoconsole \
+		--boot uefi
+
+	popd >/dev/null 2>&1
+fi
