@@ -9,3 +9,13 @@ reclaimPolicy: Delete
 parameters:
   pvDir: /srv
 volumeBindingMode: WaitForFirstConsumer
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: warp-media
+provisioner: microk8s.io/hostpath
+reclaimPolicy: Delete
+parameters:
+  pvDir: /warp/media
+volumeBindingMode: WaitForFirstConsumer
