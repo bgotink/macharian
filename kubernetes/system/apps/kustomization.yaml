@@ -9,6 +9,7 @@ resources:
 - ./loaders/home.yaml
 - ./loaders/immich.yaml
 - ./loaders/ingress.yaml
+- ./loaders/media.yaml
 - ./loaders/mongodb.yaml
 - ./loaders/nextcloud.yaml
 - ./loaders/postgres/db.yaml

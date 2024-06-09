@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: warp-media
+  namespace: media
+spec:
+  capacity:
+    storage: 1Ti
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteOnce
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: warp-media
+  local:
+    path: /warp/media
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - cytheris
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: warp-media-data
+  namespace: media
+spec:
+  volumeName: warp-media
+  storageClassName: warp-media
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 900Gi

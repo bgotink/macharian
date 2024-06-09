@@ -1,5 +1,5 @@
-kind: StorageClass
 apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
   name: ssd-hostpath
   annotations:
@@ -10,12 +10,9 @@ parameters:
   pvDir: /srv
 volumeBindingMode: WaitForFirstConsumer
 ---
-kind: StorageClass
 apiVersion: storage.k8s.io/v1
+kind: StorageClass
 metadata:
   name: warp-media
-provisioner: microk8s.io/hostpath
-reclaimPolicy: Delete
-parameters:
-  pvDir: /warp/media
+provisioner: kubernetes.io/no-provisioner
 volumeBindingMode: WaitForFirstConsumer
