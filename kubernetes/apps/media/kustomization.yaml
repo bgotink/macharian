@@ -7,3 +7,4 @@ resources:
 - ./sabnzd.yaml
 - ./sonarr.yaml
 - ./prowlarr.yaml
+- ./plex.yaml
