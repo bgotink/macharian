@@ -42,7 +42,7 @@ spec:
       instanceName: "user"
 
       lightTheme: gazette
-      darkTheme: horizon
+      darkTheme: blackboard
 
       alwaysTargetBlank: true
       showGreeting: false
@@ -51,11 +51,12 @@ spec:
       showBookmarkGroups: false
       showGlobalBookmarks: false
       showAppUrls: false
-      defaultEnable: true
+      defaultSearchProvider: DuckDuckGo
 
       namespaceSelector:
         any: true
       name: "Home"
+      title: "Home"
 
     ingress:
       main:
