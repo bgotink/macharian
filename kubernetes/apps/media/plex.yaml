@@ -96,6 +96,11 @@ spec:
             port: 32400
     ingress:
       app:
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/appName: Plex
+          hajimari.io/instance: "user"
+          hajimari.io/icon: simple-icons:plex
         hosts:
           - host: plex.${SECRET_HOST}
             paths:
