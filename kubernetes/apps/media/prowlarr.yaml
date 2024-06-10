@@ -90,6 +90,12 @@ spec:
             port: *port
     ingress:
       app:
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/appName: Media Indexer
+          hajimari.io/instance: "admin"
+          hajimari.io/group: "media"
+          hajimari.io/icon: cbi:prowlarr
         hosts:
           - host: prowlarr.${SECRET_HOST}
             paths:

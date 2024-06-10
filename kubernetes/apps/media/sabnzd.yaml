@@ -84,6 +84,12 @@ spec:
 
     ingress:
       app:
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/appName: Usenet Downloader
+          hajimari.io/instance: "admin"
+          hajimari.io/group: "media"
+          hajimari.io/icon: cbi:sabnzbd
         hosts:
           - host: sabnzbd.${SECRET_HOST}
             paths:

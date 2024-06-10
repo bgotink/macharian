@@ -91,6 +91,12 @@ spec:
             port: *port
     ingress:
       app:
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/appName: Movies Tracker
+          hajimari.io/instance: "admin"
+          hajimari.io/group: "media"
+          hajimari.io/icon: simple-icons:radarr
         hosts:
           - host: radarr.${SECRET_HOST}
             paths:
