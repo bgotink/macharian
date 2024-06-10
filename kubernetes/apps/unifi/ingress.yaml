@@ -13,7 +13,6 @@ metadata:
     hajimari.io/icon: arcticons:unifi-network
     hajimari.io/instance: admin
     hajimari.io/group: network
-    hajimari.io/url: "${UNIFI_HOST}"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
   labels:
     app.kubernetes.io/instance: unifi-controller
