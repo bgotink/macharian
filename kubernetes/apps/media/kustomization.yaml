@@ -7,5 +7,5 @@ resources:
 - ./sabnzd.yaml
 - ./sonarr.yaml
 - ./prowlarr.yaml
-- ./plex.yaml
+# - ./plex.yaml
 - ./jellyfin.yaml
