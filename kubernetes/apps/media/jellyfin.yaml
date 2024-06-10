@@ -33,7 +33,7 @@ spec:
           app:
             image:
               repository: ghcr.io/linuxserver/jellyfin
-              tag: 10.9.6@sha256:a363aa018edee61bcee46be5f8dbd0db2a317b2bc0f95121a46e522d798c2a63
+              tag: 2021.12.16@sha256:983e3cf314deaa76b0aa58c82d59c285b2ac2a3ef2f316b0361cb4c8bb58b79d
             env:
               TZ: ${TIMEZONE}
               PUID: '568'
