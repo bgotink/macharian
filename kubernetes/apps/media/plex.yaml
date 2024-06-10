@@ -99,7 +99,8 @@ spec:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/appName: Plex
-          hajimari.io/instance: "user"
+          hajimari.io/instance: "user,admin"
+          hajimari.io/group: "apps"
           hajimari.io/icon: simple-icons:plex
         hosts:
           - host: plex.${SECRET_HOST}

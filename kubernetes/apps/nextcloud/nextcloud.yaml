@@ -32,7 +32,8 @@ spec:
         nginx.ingress.kubernetes.io/proxy-body-size: "0"
         hajimari.io/enable: "true"
         hajimari.io/appName: Documents
-        hajimari.io/instance: "user"
+        hajimari.io/instance: "user,admin"
+        hajimari.io/group: "apps"
         hajimari.io/icon: simple-icons:nextcloud
         # nginx.ingress.kubernetes.io/server-snippet: |-
         #   server_tokens off;
