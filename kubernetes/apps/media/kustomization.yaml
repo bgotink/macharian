@@ -9,3 +9,4 @@ resources:
 - ./prowlarr.yaml
 - ./plex.yaml
 - ./radarr.yaml
+- ./overseerr.yaml
