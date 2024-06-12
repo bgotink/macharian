@@ -4,6 +4,7 @@ resources:
 - ./cluster-secrets.yaml
 - ./cluster-settings.yaml
 # Loaders
+- ./loaders/auth.yaml
 - ./loaders/cert-manager/cert-manager.yaml
 - ./loaders/cert-manager/issuers.yaml
 - ./loaders/home.yaml

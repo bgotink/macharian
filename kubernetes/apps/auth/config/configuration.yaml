@@ -1,0 +1,64 @@
+authentication_backend:
+  refresh_interval: '5m'
+  file:
+    path: '/config/users.yml'
+
+session:
+  cookies:
+    - domain: ${SECRET_HOST}
+      authelia_url: https://auth.${SECRET_HOST}
+      default_redirection_url: https://${SECRET_HOST}
+  redis:
+    host: redis-master.redis
+    database_index: 2
+
+notifier:
+  disable_startup_check: true
+  smtp:
+    host: "${SMTP_HOST}"
+    port: "${SMTP_PORT}"
+    username: '{{ env "SMTP_USERNAME" }}'
+    password: '{{ env "SMTP_PASSWORD" }}'
+    sender: "Authelia <${SECRET_SYSTEM_EMAIL}>"
+
+totp:
+  disable: false
+  issuer: ${SECRET_HOST}
+
+webauthn:
+  disable: false
+
+duo_api:
+  disable: true
+
+access_control:
+  default_policy: two_factor
+  networks:
+    - name: internal
+      networks:
+      - "10.0.0.0/8"
+      - "192.168.1.0/24"
+  rules: []
+
+identity_providers:
+  oidc:
+    cors:
+      endpoints: ["authorization", "token", "revocation", "introspection"]
+      allowed_origins_from_client_redirect_uris: true
+    clients:
+      - client_id: '{{ env "OIDC_CLIENT_ID_NEXTCLOUD" }}'
+        client_name: 'NextCloud'
+        client_secret: '$pbkdf2-sha512$310000$2aLdgvUWGC3TbIoBWAtoKA$j49liVY0PhNR0qEAu.2HqdWn33F6qKul5LPBzonWrSl08iMTk7r1ThmFIDIPUNuMsW1d51Whb.9Yi/xU1GMuMQ'
+        public: false
+        authorization_policy: 'two_factor'
+        require_pkce: true
+        pkce_challenge_method: 'S256'
+        redirect_uris:
+          - 'https://documents.${SECRET_HOST}/apps/oidc_login/oidc'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+          - 'groups'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
