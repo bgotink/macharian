@@ -53,16 +53,13 @@ spec:
         library:
           existingClaim: immich-upload-pvc
 
-    image:
-      tag: "v1.105.1"
-
     server:
       resources:
         requests:
           cpu: 15m
-          memory: 1536Mi
+          memory: 512Mi
         limits:
-          memory: 1536Mi
+          memory: 2Gi
 
       initContainers:
         init-db:
@@ -97,17 +94,6 @@ spec:
               paths:
                 - path: /
                   pathType: Prefix
-
-    microservices:
-      controller:
-        replicas: 2
-
-      resources:
-        requests:
-          cpu: 100m
-          memory: 1Gi
-        limits:
-          memory: 2Gi
 
     machine-learning:
       resources:
