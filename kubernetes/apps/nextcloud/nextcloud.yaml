@@ -130,6 +130,18 @@ spec:
             'overwriteprotocol' => 'https',
             'overwrite.cli.url' => 'https://documents.${SECRET_HOST}',
           );
+        hosted-locally.config.php: |-
+          <?php
+          $CONFIG = array(
+            'allow_local_remote_servers' => true,
+          );
+        oidc.config.php: |-
+          <?php
+          $CONFIG = array(
+            'user_oidc' => array(
+              'use_pkce' => true,
+            ),
+          );
 
     internalDatabase:
       enabled: false
