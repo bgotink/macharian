@@ -1,7 +1,7 @@
 authentication_backend:
   refresh_interval: '5m'
   file:
-    path: '/config/users.yml'
+    path: '/config/users.yaml'
 
 session:
   cookies:
