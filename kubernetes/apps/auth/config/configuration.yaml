@@ -48,7 +48,7 @@ identity_providers:
     clients:
       - client_id: '{{ env "OIDC_CLIENT_ID_NEXTCLOUD" }}'
         client_name: 'NextCloud'
-        client_secret: '$pbkdf2-sha512$310000$2aLdgvUWGC3TbIoBWAtoKA$j49liVY0PhNR0qEAu.2HqdWn33F6qKul5LPBzonWrSl08iMTk7r1ThmFIDIPUNuMsW1d51Whb.9Yi/xU1GMuMQ'
+        client_secret: '$pbkdf2-sha512$310000$fmA8fgByYPHQpG6RWGlcxg$8tZzu0hyjtZsz9nxioiRjBtoEADvKONjsZ8MSaRE8n7/4vjb2gKYRSBB50dg96yaapatFIe6RsIkUccFdA2riQ'
         public: false
         authorization_policy: 'two_factor'
         require_pkce: true
