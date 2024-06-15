@@ -23,6 +23,7 @@ spec:
         proxy-body-size: 0
 
       hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       hostPort:
         enabled: true
         ports:
