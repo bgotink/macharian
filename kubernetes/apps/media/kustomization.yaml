@@ -10,3 +10,4 @@ resources:
 - ./plex.yaml
 - ./radarr.yaml
 - ./overseerr.yaml
+- ./bazarr.yaml
