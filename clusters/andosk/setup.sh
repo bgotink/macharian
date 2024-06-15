@@ -16,6 +16,11 @@ if ! [ -f /etc/dnsmasq.d/02-local-hosts.conf ]; then
 	pihole restartdns
 fi
 
+if ! [ -f /etc/dnsmasq.d/99-allow-non-local.conf  ]; then
+	cat < andosk/dnsmasq-allow-non-local.conf > /etc/dnsmasq.d/99-allow-non-local.conf
+	pihole restartdns
+fi
+
 # Setup certbot
 
 install_certbot
