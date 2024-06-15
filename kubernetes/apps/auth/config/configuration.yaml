@@ -62,3 +62,17 @@ identity_providers:
           - 'groups'
         userinfo_signed_response_alg: 'none'
         token_endpoint_auth_method: 'client_secret_post'
+      - client_id: '{{ env "OIDC_CLIENT_ID_IMMICH" }}'
+        client_name: 'immich'
+        client_secret: '$pbkdf2-sha512$310000$8csUdIixBchpUu7fH/eMOg$e4ZtQ9rZGCq/Q1/SqCx/o4f6UmFHxnc5gaDuvzfgpPIFEiLygcxAB2VsvtkQsf.3GFI0uhJ87dZUVDnVzf3SgA'
+        public: false
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - 'https://photos.${SECRET_HOST}/auth/login'
+          - 'https://photos.${SECRET_HOST}/user-settings'
+          - 'app.immich:/'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+        userinfo_signed_response_alg: 'none'
