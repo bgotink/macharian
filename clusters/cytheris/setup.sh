@@ -11,7 +11,9 @@ fi
 
 microk8s status --wait-ready
 
-microk8s enable hostpath-storage dns metallb
+microk8s enable hostpath-storage
+microk8s enable dns
+microk8s enable metallb
 
 microk8s enable community
 microk8s enable cilium
