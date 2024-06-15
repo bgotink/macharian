@@ -75,6 +75,13 @@ spec:
         - ReadWriteOnce
       size: 200Mi
 
+    extraSecretMounts:
+      - name: pgadmin-config
+        mountPath: /pgadmin4/config_local.py
+        subPath: config_local.py
+        readOnly: true
+        secret: pgadmin-config
+
     resources:
       requests:
         cpu: 100m

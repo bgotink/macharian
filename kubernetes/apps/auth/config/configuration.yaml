@@ -46,6 +46,7 @@ identity_providers:
       endpoints: ["authorization", "token", "revocation", "introspection"]
       allowed_origins_from_client_redirect_uris: true
     clients:
+      # User tools
       - client_id: '{{ env "OIDC_CLIENT_ID_NEXTCLOUD" }}'
         client_name: 'NextCloud'
         client_secret: '$pbkdf2-sha512$310000$fmA8fgByYPHQpG6RWGlcxg$8tZzu0hyjtZsz9nxioiRjBtoEADvKONjsZ8MSaRE8n7/4vjb2gKYRSBB50dg96yaapatFIe6RsIkUccFdA2riQ'
@@ -76,3 +77,17 @@ identity_providers:
           - 'profile'
           - 'email'
         userinfo_signed_response_alg: 'none'
+      # Admin tools
+      - client_id: '{{ env "OIDC_CLIENT_ID_PGADMIN" }}'
+        client_name: 'pgadmin'
+        client_secret: '$pbkdf2-sha512$310000$HMURF5Tcu243j.gGawZKOw$cTjNukhqPzdUBMYWneO/iYC9.TjnMEIZp/1IXwBBVUO/JlFoTX/6bSZrPZpaklnZUwJirjo3TtCYAD7oxmEWXQ'
+        public: false
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - 'https://postgres.${SECRET_HOST}/oauth2/authorize'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_basic'
