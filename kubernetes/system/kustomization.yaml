@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
 - ./apps.yaml
+- ./stakater-reload.yaml
 - ./helm/bitnami-charts.yaml
 - ./helm/bjw-s.yaml
 - ./helm/cloudnative-pg.yaml
@@ -12,3 +13,4 @@ resources:
 - ./helm/jetstack-charts.yaml
 - ./helm/nextcloud.yaml
 - ./helm/runix.yaml
+- ./helm/stakater-charts.yaml
