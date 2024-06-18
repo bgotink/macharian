@@ -16,7 +16,7 @@ spec:
 
   values:
     env:
-      REDIS_HOSTNAME: redis-master.
+      REDIS_HOSTNAME: redis-master.redis
       REDIS_DBINDEX: 1
       DISABLE_REVERSE_GEOCODING: "false"
       REVERSE_GEOCODING_PRECISION: "2"
