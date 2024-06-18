@@ -13,6 +13,7 @@ resources:
 - ./loaders/media.yaml
 - ./loaders/mongodb.yaml
 - ./loaders/nextcloud.yaml
+- ./loaders/observability.yaml
 - ./loaders/postgres/db.yaml
 - ./loaders/postgres/cluster.yaml
 - ./loaders/postgres/pgadmin.yaml

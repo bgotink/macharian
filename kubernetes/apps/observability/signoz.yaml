@@ -1,0 +1,44 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: signoz
+  namespace: observability
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: signoz
+      version: 0.43.0
+      sourceRef:
+        kind: HelmRepository
+        name: signoz
+        namespace: flux-system
+
+  install:
+    remediation:
+      retries: 3
+
+  upgrade:
+    remediation:
+      retries: 3
+
+  values:
+    frontend:
+      ingress:
+        enabled: true
+        annotations:
+          nginx.ingress.kubernetes.io/auth-method: 'GET'
+          nginx.ingress.kubernetes.io/auth-url: 'http://authelia.auth.svc.cluster.local:8080/api/authz/auth-request'
+          nginx.ingress.kubernetes.io/auth-signin: 'https://auth.${SECRET_HOST}?rm=$request_method'
+          nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
+          hajimari.io/enable: "true"
+          hajimari.io/appName: Signoz
+          hajimari.io/instance: "admin"
+          hajimari.io/group: "system"
+          hajimari.io/icon: carbon:cloud-logging
+        hosts:
+        - host: signoz.${SECRET_HOST}
+          paths:
+          - path: /
+            pathType: ImplementationSpecific
+            port: 3301

@@ -13,4 +13,5 @@ resources:
 - ./helm/jetstack-charts.yaml
 - ./helm/nextcloud.yaml
 - ./helm/runix.yaml
+- ./helm/signoz.yaml
 - ./helm/stakater-charts.yaml
