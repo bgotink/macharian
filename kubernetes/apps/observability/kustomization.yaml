@@ -3,3 +3,12 @@ kind: Kustomization
 resources:
 - ./namespace.yaml
 - ./signoz.yaml
+- ./gatus/secrets.yaml
+- ./gatus/gatus.yaml
+configMapGenerator:
+  - name: gatus-config
+    namespace: observability
+    files:
+      - config.yaml=./gatus/resources/config.yaml
+generatorOptions:
+  disableNameSuffixHash: true

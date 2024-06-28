@@ -1,0 +1,158 @@
+---
+# Note: Gatus vars should be escaped with $${VAR_NAME} to avoid interpolation by Flux
+web:
+  port: $${WEB_PORT}
+storage:
+  type: postgres
+  path: postgres://$${GATUS_POSTGRES_USERNAME}:$${GATUS_POSTGRES_PASSWORD}@$${GATUS_POSTGRES_ADDRESS}:5432/$${GATUS_POSTGRES_DATABASE}?sslmode=disable
+  caching: true
+metrics: true
+debug: false
+ui:
+  title: Status | Gatus
+  header: Status
+alerting:
+connectivity:
+  checker:
+    target: 1.1.1.1:53
+    interval: 1m
+
+templates:
+  internal-externally-available: &internal-externally-available
+    group: internal
+    interval: 1m
+    conditions:
+      - "[STATUS] == 200"
+  external-externally-available: &external-externally-available
+    group: external
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 200"
+      - "len([BODY]) != 2268"
+
+  internal-internal-only: &internal-internal-only
+    group: internal
+    interval: 1m
+    ui:
+      hide-hostname: true
+    conditions:
+      - "[STATUS] == 200"
+  external-internal-only: &external-internal-only
+    group: external
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    ui:
+      hide-hostname: true
+    conditions:
+      - "[STATUS] == 200"
+      - "len([BODY]) == 2268"
+
+endpoints:
+  - name: Home
+    group: external
+    url: https://${SECRET_HOST}
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 200"
+      - "len([BODY]) != 2268"
+  - name: Redirect page sanity
+    group: external
+    url: https://${SECRET_DNS_ZONE}
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 200"
+      - "len([BODY]) == 2268" # turned around, this is the target of the redirect
+
+  - <<: *internal-externally-available
+    name: Authelia
+    url: https://auth.${SECRET_HOST}/api/health
+  - <<: *external-externally-available
+    name: Authelia
+    url: https://auth.${SECRET_HOST}/api/health
+
+  - <<: *internal-externally-available
+    name: Gatus
+    url: https://status.${SECRET_HOST}/health
+  - <<: *external-externally-available
+    name: Gatus
+    url: https://status.${SECRET_HOST}/health
+
+  - <<: *internal-externally-available
+    name: Immich
+    url: https://photos.${SECRET_HOST}/api/server-info/ping
+  - <<: *external-externally-available
+    name: Immich
+    url: https://photos.${SECRET_HOST}/api/server-info/ping
+
+  - <<: *internal-externally-available
+    name: NextCloud
+    url: https://documents.${SECRET_HOST}
+  - <<: *external-externally-available
+    name: NextCloud
+    url: https://documents.${SECRET_HOST}
+
+  - <<: *internal-internal-only
+    name: Unifi
+    url: https://unifi.${SECRET_HOST}
+  - <<: *external-internal-only
+    name: Unifi
+    url: https://unifi.${SECRET_HOST}
+
+  - <<: *internal-internal-only
+    name: pgAdmin
+    url: https://postgres.${SECRET_HOST}/misc/ping
+  - <<: *external-internal-only
+    name: pgAdmin
+    url: https://postgres.${SECRET_HOST}/misc/ping
+
+  - <<: *internal-internal-only
+    name: Plex
+    url: https://plex.${SECRET_HOST}
+    conditions:
+      - "[STATUS] == 401"
+  - <<: *external-internal-only
+    name: Plex
+    url: https://plex.${SECRET_HOST}
+  - <<: *internal-internal-only
+    name: Bazarr
+    url: https://bazarr.${SECRET_HOST}
+  - <<: *external-internal-only
+    name: Bazarr
+    url: https://bazarr.${SECRET_HOST}
+  - <<: *internal-internal-only
+    name: Overseerr
+    url: https://media-requests.${SECRET_HOST}
+  - <<: *external-internal-only
+    name: Overseerr
+    url: https://media-requests.${SECRET_HOST}
+  - <<: *internal-internal-only
+    name: Prowlarr
+    url: https://prowlarr.${SECRET_HOST}
+  - <<: *external-internal-only
+    name: Prowlarr
+    url: https://prowlarr.${SECRET_HOST}
+  - <<: *internal-internal-only
+    name: Radarr
+    url: https://radarr.${SECRET_HOST}
+  - <<: *external-internal-only
+    name: Radarr
+    url: https://radarr.${SECRET_HOST}
+  - <<: *internal-internal-only
+    name: SABnzbd
+    url: https://sabnzbd.${SECRET_HOST}
+  - <<: *external-internal-only
+    name: SABnzbd
+    url: https://sabnzbd.${SECRET_HOST}
+  - <<: *internal-internal-only
+    name: Sonarr
+    url: https://sonarr.${SECRET_HOST}
+  - <<: *external-internal-only
+    name: Sonarr
+    url: https://sonarr.${SECRET_HOST}
