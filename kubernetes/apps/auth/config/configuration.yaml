@@ -77,6 +77,20 @@ identity_providers:
           - 'profile'
           - 'email'
         userinfo_signed_response_alg: 'none'
+      - client_id: '{{ env "OIDC_CLIENT_ID_WH40K_WIKI" }}'
+        client_name: 'wh40k-wiki'
+        client_secret: '$pbkdf2-sha512$310000$qicf2JwkvrYXBY/mr5MyJQ$naDAN2PRvLfvTdQG4a25RzD7Y.j7NFZis./dRtMA.Y4sDfwzOk0l5iQB85Y2LWHPpjUuOoLWDuUbgQhjlCWzHw'
+        public: false
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - 'https://wh40k-wiki.${SECRET_HOST}/login/bdf59bfe-2793-4c64-aa48-a5e4a951f09f/callback'
+          - 'app.immich:/'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+        userinfo_signed_response_alg: 'none'
+        token_endpoint_auth_method: 'client_secret_post'
       # Admin tools
       - client_id: '{{ env "OIDC_CLIENT_ID_PGADMIN" }}'
         client_name: 'pgadmin'
