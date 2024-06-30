@@ -19,3 +19,4 @@ resources:
 - ./loaders/postgres/pgadmin.yaml
 - ./loaders/redis.yaml
 - ./loaders/unifi.yaml
+- ./loaders/wiki.yaml
