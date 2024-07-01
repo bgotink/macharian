@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - ./apps.yaml
 - ./stakater-reload.yaml
+- ./helm/authentik-charts.yaml
 - ./helm/bitnami-charts.yaml
 - ./helm/bjw-s.yaml
 - ./helm/cloudnative-pg.yaml
