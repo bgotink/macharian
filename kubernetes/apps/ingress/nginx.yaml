@@ -17,6 +17,7 @@ spec:
       interval: 30m
   values:
     controller:
+      allowSnippetAnnotations: true
       config:
         compute-full-forwarded-for: 'true'
         use-forwarded-headers: 'true'
