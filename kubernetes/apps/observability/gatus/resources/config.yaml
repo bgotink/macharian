@@ -73,9 +73,13 @@ endpoints:
   - <<: *internal-externally-available
     name: Authentik
     url: https://sso.${SECRET_HOST}/-/health/live/
+    conditions:
+      - "[STATUS] == 204"
   - <<: *external-externally-available
     name: Authentic
     url: https://sso.${SECRET_HOST}/-/health/live/
+    conditions:
+      - "[STATUS] == 204"
 
   - <<: *internal-externally-available
     name: Gatus
@@ -112,24 +116,26 @@ endpoints:
     name: pgAdmin
     url: https://postgres.${SECRET_HOST}/misc/ping
 
-  - <<: *internal-internal-only
+  - <<: *internal-externally-available
     name: Plex
     url: https://plex.${SECRET_HOST}
     conditions:
       - "[STATUS] == 401"
-  - <<: *external-internal-only
+  - <<: *external-externally-available
     name: Plex
     url: https://plex.${SECRET_HOST}
+    conditions:
+      - "[STATUS] == 401"
   - <<: *internal-internal-only
     name: Bazarr
     url: https://bazarr.${SECRET_HOST}
   - <<: *external-internal-only
     name: Bazarr
     url: https://bazarr.${SECRET_HOST}
-  - <<: *internal-internal-only
+  - <<: *internal-externally-available
     name: Overseerr
     url: https://media-requests.${SECRET_HOST}
-  - <<: *external-internal-only
+  - <<: *external-externally-available
     name: Overseerr
     url: https://media-requests.${SECRET_HOST}
   - <<: *internal-internal-only
