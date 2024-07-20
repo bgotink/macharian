@@ -15,6 +15,10 @@ spec:
         namespace: flux-system
 
   values:
+    image:
+      # renovate: datasource=github-releases depName=immich-app/immich
+      tag: v1.106.1
+
     env:
       REDIS_HOSTNAME: redis-master.redis
       REDIS_DBINDEX: 1
