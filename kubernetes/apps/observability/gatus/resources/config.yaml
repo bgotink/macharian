@@ -162,3 +162,25 @@ endpoints:
   - <<: *external-internal-only
     name: Sonarr
     url: https://sonarr.${SECRET_HOST}
+
+  - <<: *internal-internal-only
+    group: non-k8s
+    name: Pi-hole
+    url: https://dns.${SECRET_HOST}
+  - <<: *external-internal-only
+    name: Pi-hole
+    url: https://dns.${SECRET_HOST}
+  - <<: *internal-internal-only
+    group: non-k8s
+    name: HomeAssistant
+    url: https://home-assistant.${SECRET_HOST}
+  - <<: *external-internal-only
+    name: HomeAssistant
+    url: https://home-assistant.${SECRET_HOST}
+  - <<: *internal-internal-only
+    group: non-k8s
+    name: MinIO
+    url: https://storage.${SECRET_HOST}
+  - <<: *external-internal-only
+    name: MinIO
+    url: https://storage.${SECRET_HOST}
