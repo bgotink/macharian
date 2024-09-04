@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
 - ./main-cluster.yaml
 - ./secrets.yaml
+- ./scheduled-backup.yaml
