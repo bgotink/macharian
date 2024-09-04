@@ -73,13 +73,9 @@ endpoints:
   - <<: *internal-externally-available
     name: Authentik
     url: https://sso.${SECRET_HOST}/-/health/live/
-    conditions:
-      - "[STATUS] == 204"
   - <<: *external-externally-available
     name: Authentic
     url: https://sso.${SECRET_HOST}/-/health/live/
-    conditions:
-      - "[STATUS] == 204"
 
   - <<: *internal-externally-available
     name: Gatus
