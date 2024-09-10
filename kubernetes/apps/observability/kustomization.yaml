@@ -4,7 +4,6 @@ resources:
 - ./namespace.yaml
 - ./gatus/secrets.yaml
 - ./gatus/gatus.yaml
-# - ./signoz.yaml
 configMapGenerator:
   - name: gatus-config
     namespace: observability
