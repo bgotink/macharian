@@ -29,7 +29,7 @@ spec:
             - 'until nslookup mongodb.mongodb.svc.cluster.local; do echo waiting for mongodb; sleep 2; done;'
       containers:
         - name: unifi-controller
-          image: linuxserver/unifi-network-application:8.4.59@sha256:cc8001b61c6a268ac14254b4a5f74648dcb5cb6df90fff54bc8d2bed5d669047
+          image: linuxserver/unifi-network-application:8.4.62@sha256:5349adad88b656b908b9e3e0d19c6e490152fd839b2267882822a97aa906d707
           imagePullPolicy: IfNotPresent
           env:
           - name: TZ
