@@ -155,3 +155,6 @@ if ! has_vm persepolis; then
 
 	popd >/dev/null 2>&1
 fi
+
+# TODO unlock rootfs remotely
+# https://www.cyberciti.biz/security/how-to-unlock-luks-using-dropbear-ssh-keys-remotely-in-linux/
