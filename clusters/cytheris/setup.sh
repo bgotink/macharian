@@ -40,5 +40,4 @@ kubectl create secret generic sops-age \
 flux bootstrap github \
   --personal \
   --owner=bgotink --repository=macharian --branch=main \
-  --path=./clusters/cytheris \
-  --components-extra image-reflector-controller,image-automation-controller
+  --path=./clusters/cytheris
