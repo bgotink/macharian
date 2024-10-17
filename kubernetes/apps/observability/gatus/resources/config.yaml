@@ -86,10 +86,10 @@ endpoints:
 
   - <<: *internal-externally-available
     name: Immich
-    url: https://photos.${SECRET_HOST}/api/server-info/ping
+    url: https://photos.${SECRET_HOST}/api/server/ping
   - <<: *external-externally-available
     name: Immich
-    url: https://photos.${SECRET_HOST}/api/server-info/ping
+    url: https://photos.${SECRET_HOST}/api/server/ping
 
   - <<: *internal-externally-available
     name: NextCloud
