@@ -51,6 +51,16 @@ if ! [ -f "/etc/letsencrypt/live/storage.${SECRET_HOST}/cert.pem" ]; then
 		--register-unsafely-without-email
 fi
 
+if ! [ -f "/etc/letsencrypt/renewal-hooks/post/reload-nginx.sh" ]; then
+  cat <<EOF > /etc/letsencrypt/renewal-hooks/post/reload-nginx.sh
+#!/usr/bin/env bash
+set -e
+
+systemctl reload nginx
+EOF
+  chmod +x /etc/letsencrypt/renewal-hooks/post/reload-nginx.sh
+fi
+
 if ! grep --quiet "$SECRET_HOST" /etc/nginx/sites-enabled/default; then
 	sed -e "s#\${SECRET_HOST}#${SECRET_HOST}#g" <yix/nginx-default.conf >/etc/nginx/sites-enabled/default
 fi
