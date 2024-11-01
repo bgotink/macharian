@@ -12,3 +12,5 @@ resources:
 - ./overseerr.yaml
 - ./bazarr.yaml
 - ./qbittorrent.yaml
+- ./lidarr.yaml
+- ../_shared/private-registry-secrets.yaml
