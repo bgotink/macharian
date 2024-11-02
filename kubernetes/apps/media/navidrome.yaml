@@ -1,0 +1,112 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: navidrome
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      navidrome:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/navidrome/navidrome
+              tag: 0.53.3@sha256:6b9e2f5fb7f03dbc116d86ad5fc614c312b326e46638c0438bb14c91a0a49b59
+            env:
+              TZ: ${TIMEZONE}
+              ND_DATAFOLDER: /data
+              ND_MUSICFOLDER: /media/music
+              ND_PORT: &port 4533
+              ND_SCANSCHEDULE: "12h"
+              ND_SESSIONTIMEOUT: "24h"
+              ND_LOGLEVEL: "info"
+              ND_ENABLETRANSCODINGCONFIG: "false"
+              ND_TRANSCODINGCACHESIZE: "512MB"
+              ND_ENABLESTARRATING: "false"
+              ND_ENABLEFAVOURITES: "false"
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probe
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [44, 10000]
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: navidrome
+        ports:
+          http:
+            port: *port
+    ingress:
+      app:
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/appName: Music
+          hajimari.io/instance: "user,admin"
+          hajimari.io/group: "apps"
+          hajimari.io/icon: arcticons:virtual-music-player
+        hosts:
+          - host: music.${SECRET_HOST}
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      data:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOncePod
+        retain: true
+        size: 10Gi
+      tmp:
+        type: emptyDir
+      media:
+        existingClaim: warp-media-data
+        globalMounts:
+          - path: /media
+            readOnly: true
