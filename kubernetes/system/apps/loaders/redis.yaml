@@ -5,6 +5,7 @@ metadata:
   name: redis
   namespace: flux-system
 spec:
+  targetNamespace: redis
   interval: 10m
   path: ./kubernetes/apps/redis
   prune: true

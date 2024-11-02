@@ -5,7 +5,6 @@ metadata:
     app.kubernetes.io/instance: unifi-controller
     app.kubernetes.io/name: unifi-controller
   name: unifi-controller
-  namespace: unifi
 spec:
   type: LoadBalancer
   selector:

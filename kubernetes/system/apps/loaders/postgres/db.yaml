@@ -5,6 +5,7 @@ metadata:
   name: postgres-db
   namespace: flux-system
 spec:
+  targetNamespace: postgres
   interval: 10m
   path: ./kubernetes/apps/postgres/db
   prune: true

@@ -5,6 +5,7 @@ metadata:
   name: immich
   namespace: flux-system
 spec:
+  targetNamespace: immich
   interval: 10m
   path: ./kubernetes/apps/immich
   dependsOn:

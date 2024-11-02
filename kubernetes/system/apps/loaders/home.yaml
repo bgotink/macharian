@@ -5,6 +5,7 @@ metadata:
   name: home
   namespace: flux-system
 spec:
+  targetNamespace: home
   interval: 10m
   path: ./kubernetes/apps/home
   dependsOn:

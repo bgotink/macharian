@@ -5,6 +5,7 @@ metadata:
   name: nextcloud
   namespace: flux-system
 spec:
+  targetNamespace: nextcloud
   interval: 10m
   path: ./kubernetes/apps/nextcloud
   dependsOn:

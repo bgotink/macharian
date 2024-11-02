@@ -5,6 +5,7 @@ metadata:
   name: auth
   namespace: flux-system
 spec:
+  targetNamespace: auth
   interval: 10m
   path: ./kubernetes/apps/auth
   dependsOn:

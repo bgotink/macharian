@@ -5,6 +5,7 @@ metadata:
   name: mongodb
   namespace: flux-system
 spec:
+  targetNamespace: mongodb
   interval: 10m
   path: ./kubernetes/apps/mongodb
   prune: true

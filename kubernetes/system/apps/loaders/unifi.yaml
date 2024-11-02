@@ -5,6 +5,7 @@ metadata:
   name: unifi
   namespace: flux-system
 spec:
+  targetNamespace: unifi
   interval: 10m
   path: ./kubernetes/apps/unifi
   dependsOn:

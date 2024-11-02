@@ -2,7 +2,6 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: ingress-certitifcate
-  namespace: ingress
 spec:
   secretName: ingress-certitifcate
   issuerRef:

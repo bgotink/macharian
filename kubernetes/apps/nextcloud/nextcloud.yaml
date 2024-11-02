@@ -2,7 +2,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: nextcloud
-  namespace: nextcloud
 spec:
   interval: 30m
   chart:
@@ -155,4 +154,3 @@ spec:
         hostKey: POSTGRES_HOST
         usernameKey: POSTGRES_USER
         passwordKey: POSTGRES_PASS
-

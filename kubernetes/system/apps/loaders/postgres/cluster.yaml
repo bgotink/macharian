@@ -5,6 +5,7 @@ metadata:
   name: postgres-cluster
   namespace: flux-system
 spec:
+  targetNamespace: postgres
   interval: 10m
   path: ./kubernetes/apps/postgres/cluster
   dependsOn:

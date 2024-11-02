@@ -5,6 +5,7 @@ metadata:
   name: wiki
   namespace: flux-system
 spec:
+  targetNamespace: wiki
   interval: 10m
   path: ./kubernetes/apps/wiki
   dependsOn:

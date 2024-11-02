@@ -5,6 +5,7 @@ metadata:
   name: observability
   namespace: flux-system
 spec:
+  targetNamespace: observability
   interval: 10m
   path: ./kubernetes/apps/observability
   prune: true

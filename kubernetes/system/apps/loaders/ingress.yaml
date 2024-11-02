@@ -5,6 +5,7 @@ metadata:
   name: ingress
   namespace: flux-system
 spec:
+  targetNamespace: ingress
   interval: 10m
   path: ./kubernetes/apps/ingress
   dependsOn:
