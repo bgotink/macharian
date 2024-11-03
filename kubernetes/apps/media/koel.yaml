@@ -1,0 +1,160 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: koel
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    configMaps:
+      env:
+        data:
+          APP_URL: https://koel.${SECRET_HOST}
+          FORCE_HTTPS: 'true'
+          TZ: ${TIMEZONE}
+          MEDIA_PATH: /media/music
+          PORT: '8080'
+          MAIL_FROM_ADDRESS: "${SECRET_SYSTEM_EMAIL}"
+          MAIL_FROM_NAME: Koel
+          MAIL_MAILER: smtp
+          MAIL_HOST: "${SMTP_HOST}"
+          MAIL_PORT: "465" # "${SMTP_PORT}" doesn't work for some reason
+
+    controllers:
+      sync:
+        type: cronjob
+        cronjob:
+          schedule: "0 */2 * * *"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/bgotink/koel
+              tag: 7.2.0@sha256:766844aa34e16079f24fafb2962d0e5f8d05a0076728294cdf5d881e7b4867a5
+            envFrom: &koelEnvFrom
+              - configMapRef:
+                    name: koel-env
+              - secretRef:
+                  name: koel-db-secrets
+            command: ["php", "artisan", "koel:scan"]
+            securityContext: &secCtx
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom:
+              - secretRef:
+                  name: koel-init-db-secrets
+          init-koel:
+            image:
+              repository: ghcr.io/bgotink/koel
+              tag: 7.2.0@sha256:766844aa34e16079f24fafb2962d0e5f8d05a0076728294cdf5d881e7b4867a5
+            envFrom: *koelEnvFrom
+            command: ["bash", "-c", "php artisan koel:init --no-assets --no-scheduler || ( cat storage/logs/laravel.log; exit 1 )"]
+        containers:
+          app:
+            image:
+              repository: ghcr.io/bgotink/koel
+              tag: 7.2.0@sha256:766844aa34e16079f24fafb2962d0e5f8d05a0076728294cdf5d881e7b4867a5
+            envFrom: *koelEnvFrom
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /sw.js
+                    port: &port 8080
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probe
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext: *secCtx
+            resources:
+              requests:
+                cpu: 100m
+    defaultPodOptions:
+      imagePullSecrets:
+        - name: ghcr-image-credentials
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [44, 10000]
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: main
+        ports:
+          http:
+            port: *port
+    ingress:
+      app:
+        annotations:
+          hajimari.io/enable: "true"
+          hajimari.io/appName: Koel
+          hajimari.io/instance: "user,admin"
+          hajimari.io/group: "apps"
+          hajimari.io/icon: arcticons:virtual-music-player
+        hosts:
+          - host: koel.${SECRET_HOST}
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      tmp:
+        type: emptyDir
+      media:
+        existingClaim: warp-media-data
+        globalMounts:
+          - path: /media
+            readOnly: true
+      covers:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOncePod
+        retain: true
+        size: 1Gi
+        globalMounts:
+          - path: "/var/www/html/public/img/covers"
+      searchindex:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOncePod
+        retain: true
+        size: 2Gi
+        globalMounts:
+          - path: "/var/www/html/storage/search-indexes"
