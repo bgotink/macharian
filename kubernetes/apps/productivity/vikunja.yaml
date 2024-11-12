@@ -1,0 +1,111 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vikunja
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 16
+            envFrom:
+              - secretRef:
+                  name: vikunja-init-db-secrets
+        containers:
+          app:
+            image:
+              repository: vikunja/vikunja
+              tag: 0.24.4@sha256:c93c58841215592c51a40fa978da25efadd1fff2460b42443c344132f322eef1
+            env:
+              VIKUNJA_SERVICE_INTERFACE: ":8080"
+              VIKUNJA_SERVICE_PUBLICURL: https://todo.${SECRET_HOST}
+              VIKUNJA_SERVICE_TIMEZONE: ${TIMEZONE}
+              VIKUNJA_FILES_BASEPATH: /files
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: &port 8080
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probe
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1091
+        runAsGroup: 1091
+        fsGroup: 1091
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+
+    service:
+      app:
+        controller: main
+        ports:
+          http:
+            port: *port
+
+    ingress:
+      app:
+        hosts:
+          - host: todo.${SECRET_HOST}
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      tmp:
+        type: emptyDir
+      files:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOncePod
+        retain: true
+        size: 10Gi
+      config-file:
+        type: secret
+        name: vikunja-secrets
+        globalMounts:
+          - path: /app/vikunja/config.yml
+            subPath: config.yaml
+            readOnly: true

@@ -17,6 +17,7 @@ resources:
 - ./loaders/postgres/db.yaml
 - ./loaders/postgres/cluster.yaml
 - ./loaders/postgres/pgadmin.yaml
+- ./loaders/productivity.yaml
 - ./loaders/redis.yaml
 - ./loaders/unifi.yaml
 - ./loaders/wiki.yaml
