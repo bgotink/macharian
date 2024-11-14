@@ -11,19 +11,17 @@ if ! has_command tailscale; then
 	curl -fsSL https://tailscale.com/install.sh | sh
 fi
 
-tailscale up
+sudo tailscale up --accept-routes
 
 # Install & configure Nginx
 
 if ! has_command nginx; then
-	apt install nginx
+	sudo apt install -y nginx
 fi
 
-if ! has_command cerbot; then
-	apt install certbot python3-certbot-nginx
-fi
+install_certbot python3-certbot-nginx
 
-cat <<EOF > /etc/nginx/home-proxy.conf
+cat <<EOF | sudo tee /etc/nginx/home-proxy.conf
 location / {
 	proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
 	proxy_set_header X-Real-IP       \$remote_addr;
@@ -39,7 +37,7 @@ location / {
 }
 EOF
 
-cat <<EOF > /etc/nginx/sites-available/proxy-_name_
+cat <<EOF | sudo tee /etc/nginx/sites-available/proxy-_name_
 server {
 	server_name _name_.$SECRET_HOST;
 
@@ -47,44 +45,46 @@ server {
 }
 EOF
 
-cat <<'EOF' > /etc/nginx/conf.d/proxy_upgrade.conf
+cat <<'EOF' | sudo tee /etc/nginx/conf.d/proxy_upgrade.conf
 map $http_upgrade $proxy_connection {
 	default upgrade;
 	''      close;
 }
 EOF
 
-echo "server_tokens off;" > /etc/nginx/conf.d/server_tokens.conf
+echo "server_tokens off;" | sudo tee /etc/nginx/conf.d/server_tokens.conf
 
 for file in $EXPOSED_SUBDOMAINS; do
 	if [ ! -f /etc/nginx/sites-available/proxy-$file ]; then
-		sed -e 's/_name_/$file/' </etc/nginx/sites-available/proxy-_name_ >/etc/nginx/sites-available/proxy-$file
+		sed -e 's/_name_/$file/' </etc/nginx/sites-available/proxy-_name_ | sudo tee /etc/nginx/sites-available/proxy-$file
 
-		ln -s ../sites-available/proxy-$file /etc/nginx/sites-enabled/proxy-$file
-
-		certbot --nginx -d $file.$SECRET_HOST
+		sudo ln -s ../sites-available/proxy-$file /etc/nginx/sites-enabled/proxy-$file
+		sudo certbot --nginx -d $file.$SECRET_HOST
 	fi
 done
 
 # Set up fail2ban
 
 if ! has_command fail2ban-client; then
-	apt install fail2ban
+	sudo apt -y install fail2ban
 fi
 
 ### TODO include configuration for fail2ban ###
 
 # Firewall
 
-ufw enable
+if ! has_command ufw; then
+	sudo apt install -y ufw
+fi
 
-ufw default allow outgoing
-ufw default deny incoming
+sudo ufw enable
 
-ufw allow 'Nginx HTTP'
-ufw allow 'Nginx HTTPS'
-ufw allow OpenSSH
+sudo ufw default allow outgoing
+sudo ufw default deny incoming
 
-ufw allow from tailscale0
-ufw allow from anywhere on tailscale0
+sudo ufw allow 'Nginx HTTP'
+sudo ufw allow 'Nginx HTTPS'
+sudo ufw allow OpenSSH
 
+sudo ufw allow in on tailscale0
+sudo ufw allow out on tailscale0

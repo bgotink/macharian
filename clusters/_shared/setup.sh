@@ -19,7 +19,7 @@ has_command() {
 CERTBOT_DIGITALOCEAN_TOKEN_FILE=/root/digitalocean-certbot.ini
 install_certbot() {
 	if ! has_command certbot; then
-		apt install certbot python3-certbot-dns-digitalocean
+		apt install certbot python3-certbot-dns-digitalocean "$@"
 	fi
 
 	if ! [ -f "$CERTBOT_DIGITALOCEAN_TOKEN_FILE" ]; then
@@ -31,20 +31,20 @@ install_certbot() {
 # Shared setup logic
 
 # run apt update so we don't have to think about it in individual setup scripts
-apt update
+sudo apt update
 
 # install useful commands
-has_command curl || apt install -y curl
-has_command wget || apt install -y wget
+has_command curl || sudo apt install -y curl
+has_command wget || sudo apt install -y wget
 
 # load encrypted secrets
-has_command age || apt install -y age
+has_command age || sudo apt install -y age
 
 if ! has_command sops; then
 	pushd /tmp >/dev/null 2>&1
 	# renovate: datasource=github-releases depName=getsops/sops
-	wget -o sops.deb -LO https://github.com/getsops/sops/releases/download/v3.8.1/sops_3.8.1_amd64.deb
-	dpkg -i sops.deb
+	wget -O sops.deb -L https://github.com/getsops/sops/releases/download/v3.8.1/sops_3.8.1_amd64.deb
+	sudo dpkg -i sops.deb
 	popd >/dev/null 2>&1
 fi
 
@@ -59,11 +59,11 @@ if ! [ -f ~/.config/sops/age/keys.txt ]; then
 	set -x
 fi
 
-sops -d _shared/secrets.env | source
+source <(sops -d _shared/secrets.env)
 
 # install qemu tooling if needed
 if hostnamectl | grep --quiet "Hardware Vendor: QEMU"; then
-	if ! (apt list qemu-guest-agent | grep --quiet -F "[installed]"); then
-		apt install -y qemu-guest-agent
+	if ! (sudo apt list qemu-guest-agent | grep --quiet -F "[installed]"); then
+		sudo apt install -y qemu-guest-agent
 	fi
 fi
