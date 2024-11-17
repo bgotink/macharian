@@ -19,7 +19,7 @@ if ! has_command nginx; then
 	sudo apt install -y nginx
 fi
 
-install_certbot python3-certbot-nginx
+install_certbot certbot-nginx
 
 cat <<EOF | sudo tee /etc/nginx/home-proxy.conf
 location / {

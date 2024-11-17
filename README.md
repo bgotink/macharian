@@ -12,7 +12,7 @@ My setup is currently as follows:
 	- Yix: Ubuntu VM running [MinIO](https://github.com/minio/minio) for S3 storage
 	- Persepolis: Home Assistant OS VM
 	- Gallosque: Ubuntu VM running [Tailscale VPN](https://tailscale.com/) for outside access
-- gallosque nebula: A [DigitalOcean](https://www.digitalocean.com/) VPS running an NGINX reverse proxy that exposes certain services via gallosque over Tailscale to the outside world.
+- gallosque nebula: A [Scaleway](https://scaleway.com/) VPS running an NGINX reverse proxy that exposes certain services via gallosque over Tailscale to the outside world.
 
 ## Kubernetes
 

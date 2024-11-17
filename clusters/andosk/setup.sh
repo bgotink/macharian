@@ -28,8 +28,8 @@ install_certbot
 if ! [ -f "/etc/letsencrypt/live/dns.${SECRET_HOST}/cert.pem" ]; then
 	certbot \
 		certonly \
-		--dns-digitalocean \
-		--dns-digitalocean-credentials "$CERTBOT_DIGITALOCEAN_TOKEN_FILE" \
+		--authenticator dns-desec \
+		--dns-desec-credentials "$CERTBOT_DESEC_TOKEN_FILE" \
 		-d "dns.$SECRET_HOST" \
 		--register-unsafely-without-email
 fi

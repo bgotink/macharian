@@ -16,15 +16,41 @@ has_command() {
 	fi
 }
 
-CERTBOT_DIGITALOCEAN_TOKEN_FILE=/root/digitalocean-certbot.ini
+is_apt_installed() {
+  if dpkg -s "$2" >/dev/null 2>&1; then
+  	return 0;
+  else
+  	return 1;
+  fi
+}
+
+CERTBOT_DESEC_TOKEN_FILE=/root/desec-certbot.ini
 install_certbot() {
-	if ! has_command certbot; then
-		apt install certbot python3-certbot-dns-digitalocean "$@"
+	if ! is_apt_installed python3-venv; then
+		# detect old installation
+		if has_command certbot; then
+			if [ $# -gt 0 ]; then
+				sudo apt remove -y certbot python3-certbot-dns-digitalocean $(printf "python3-%s" "$@")
+			else
+				sudo apt remove -y certbot python3-certbot-dns-digitalocean
+			fi
+		fi
+
+		sudo apt install -y python3-venv
 	fi
 
-	if ! [ -f "$CERTBOT_DIGITALOCEAN_TOKEN_FILE" ]; then
-		echo "dns_digitalocean_token = $DIGITALOCEAN_TOKEN" > "$CERTBOT_DIGITALOCEAN_TOKEN_FILE"
-		chmod 600 "$CERTBOT_DIGITALOCEAN_TOKEN_FILE"
+	if ! [ -d /opt/certbot ]; then
+		sudo python3 -m venv --upgrade-deps /opt/certbot
+	fi
+
+	if ! [ -f /opt/certbot/bin/certbot ]; then
+		sudo /opt/certbot/bin/pip install certbot certbot-dns-desec "$@"
+		sudo ln -s /opt/certbot/bin/certbot /usr/local/bin
+	fi
+
+	if ! [ -f "$CERTBOT_DESEC_TOKEN_FILE" ]; then
+		echo "dns_desec_token = $DESEC_TOKEN" | sudo tee "$CERTBOT_DESEC_TOKEN_FILE" >/dev/null
+		sudo chmod 400 "$CERTBOT_DESEC_TOKEN_FILE"
 	fi
 }
 
