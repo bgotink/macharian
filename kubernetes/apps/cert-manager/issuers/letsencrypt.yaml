@@ -10,11 +10,15 @@ spec:
     privateKeySecretRef:
       name: letsencrypt
     solvers:
-      - dns01:
-          digitalocean:
-            tokenSecretRef:
-              name: digitalocean-secret
-              key: digitalocean-token
-        selector:
-          dnsZones:
-            - ${SECRET_DNS_ZONE}
+        - dns01:
+            webhook:
+              groupName: ${SECRET_DNS_ZONE}
+              solverName: desec-http
+              config:
+                apiUrl: https://desec.io/api/v1
+                domainName: ${SECRET_DNS_ZONE}
+                secretName: desec-secret
+                secretKeyName: desec-token
+          selector:
+            dnsZones:
+              - ${SECRET_DNS_ZONE}

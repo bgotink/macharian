@@ -12,16 +12,16 @@ spec:
     - '${SECRET_HOST}'
     - '*.${SECRET_HOST}'
 ---
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: ingress-certitifcate-staging
-spec:
-  secretName: ingress-certitifcate-staging
-  issuerRef:
-    name: letsencrypt-staging
-    kind: ClusterIssuer
-  commonName: '${SECRET_HOST}'
-  dnsNames:
-    - '${SECRET_HOST}'
-    - '*.${SECRET_HOST}'
+# apiVersion: cert-manager.io/v1
+# kind: Certificate
+# metadata:
+#   name: ingress-certitifcate-staging
+# spec:
+#   secretName: ingress-certitifcate-staging
+#   issuerRef:
+#     name: letsencrypt-staging
+#     kind: ClusterIssuer
+#   commonName: '${SECRET_HOST}'
+#   dnsNames:
+#     - '${SECRET_HOST}'
+#     - '*.${SECRET_HOST}'
