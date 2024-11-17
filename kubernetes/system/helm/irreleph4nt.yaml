@@ -1,0 +1,8 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: irreleph4nt
+  namespace: flux-system
+spec:
+  type: oci
+  url: oci://ghcr.io/irreleph4nt/charts

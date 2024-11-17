@@ -6,6 +6,7 @@ resources:
 # Loaders
 - ./loaders/auth.yaml
 - ./loaders/cert-manager/cert-manager.yaml
+- ./loaders/cert-manager/desec.yaml
 - ./loaders/cert-manager/issuers.yaml
 - ./loaders/home.yaml
 - ./loaders/immich.yaml

@@ -11,6 +11,7 @@ resources:
 - ./helm/hajimari.yaml
 - ./helm/immich-charts.yaml
 - ./helm/ingress-nginx.yaml
+- ./helm/irreleph4nt.yaml
 - ./helm/jetstack-charts.yaml
 - ./helm/nextcloud.yaml
 - ./helm/runix.yaml
