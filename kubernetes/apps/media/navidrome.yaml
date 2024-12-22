@@ -29,7 +29,7 @@ spec:
           app:
             image:
               repository: ghcr.io/navidrome/navidrome
-              tag: 0.54.1@sha256:28cde4739e40739ccd8e4866d1321e856c3b290b436e9454f1d0eb2cf611a4d8
+              tag: 0.54.2@sha256:be6d173f1c7a956a380c625a6301166cab5125e3a84e83b459470eebd7578e69
             env:
               TZ: ${TIMEZONE}
               ND_DATAFOLDER: /data
