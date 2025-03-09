@@ -40,7 +40,7 @@ spec:
           app:
             image:
               repository: ghcr.io/bgotink/lidarr-develop
-              tag: 2.10.0.4574@sha256:eb438ddb4c5ff3b70cffc2468394dfd9e062bb7bd3b52f596e134bd222d9bef4
+              tag: 2.10.1.4589@sha256:26f2b54bf80e9232a4889552313fd28f6f6b2b65cdd706e69a4f05ff5fa86b0b
             env:
               LIDARR__APP__INSTANCENAME: Lidarr
               LIDARR__APP__THEME: dark
