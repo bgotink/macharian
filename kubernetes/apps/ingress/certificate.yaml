@@ -12,6 +12,20 @@ spec:
     - '${SECRET_HOST}'
     - '*.${SECRET_HOST}'
 ---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: ingress-certitifcate-eu
+spec:
+  secretName: ingress-certitifcate-eu
+  issuerRef:
+    name: buypass
+    kind: ClusterIssuer
+  commonName: '${SECRET_HOST}'
+  dnsNames:
+    - '${SECRET_HOST}'
+    - '*.${SECRET_HOST}'
+---
 # apiVersion: cert-manager.io/v1
 # kind: Certificate
 # metadata:
