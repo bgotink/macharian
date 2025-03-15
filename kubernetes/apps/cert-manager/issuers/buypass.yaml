@@ -6,6 +6,7 @@ metadata:
 spec:
   acme:
     server: https://api.buypass.com/acme/directory
+    email: ${SECRET_ADMIN_EMAIL}
     privateKeySecretRef:
       name: buypass
     solvers:
