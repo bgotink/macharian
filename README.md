@@ -47,4 +47,4 @@ I would love to expand and add proper storage (a NAS) and at least one other ser
 ## Gratitude
 
 I might be a software engineer but I had little to no experience with Kubernetes and DevOps when I bought my server.
-The [home-ops repo of GitHub user onedr0p](https://github.com/onedr0p/home-ops) has been instrumental in getting me started with flux and renovate, and I use a lot of [containers](https://github.com/onedr0p/containers) they have set up.
+The [home-ops repo of GitHub user onedr0p](https://github.com/onedr0p/home-ops) has been instrumental in getting me started with flux and renovate, and I use a lot of [containers](https://github.com/home-operations/containers) they have set up.
