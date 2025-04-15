@@ -62,7 +62,7 @@ spec:
     phpClientHttpsFix:
       enabled: true
 
-    cron:
+    cronjob:
       enabled: true
 
     persistence:
