@@ -18,6 +18,7 @@ spec:
     controller:
       allowSnippetAnnotations: true
       config:
+        annotations-risk-level: Critical
         compute-full-forwarded-for: 'true'
         use-forwarded-headers: 'true'
         proxy-body-size: 0
