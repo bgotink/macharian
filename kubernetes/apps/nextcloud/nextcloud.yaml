@@ -102,22 +102,6 @@ spec:
           value: redis-master.redis
 
       configs:
-        s3.config.php: |-
-          <?php
-          $CONFIG = array (
-            'objectstore' => array(
-              'class' => '\\OC\\Files\\ObjectStore\\S3',
-              'arguments' => array(
-                'bucket'         => 'nextcloud',
-                'hostname'       => '${S3_HOSTNAME}',
-                'port'           => ${S3_PORT},
-                'key'            => '${NEXTCLOUD_S3_ACCESS_KEY}',
-                'secret'         => '${NEXTCLOUD_S3_SECRET_KEY}',
-                'use_path_style' => true,
-                'use_ssl'        => true
-              )
-            )
-          );
         proxy.config.php: |-
           <?php
           $CONFIG = array (
@@ -142,6 +126,18 @@ spec:
             ),
           );
 
+      objectStore:
+        s3:
+          enabled: true
+          hostname: '${S3_HOSTNAME}'
+          port: '${S3_PORT}'
+          ssl: true
+          usePathStyle: true
+          bucket: nextcloud
+          existingSecret: nextcloud-s3-secrets
+          secretKeys:
+            accessKey: accessKey
+            secretKey: secretKey
     internalDatabase:
       enabled: false
     externalDatabase:
