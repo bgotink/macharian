@@ -129,7 +129,7 @@ spec:
       objectStore:
         s3:
           enabled: true
-          hostname: '${S3_HOSTNAME}'
+          host: '${S3_HOSTNAME}'
           port: '${S3_PORT}'
           ssl: true
           usePathStyle: true
