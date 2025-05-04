@@ -24,7 +24,7 @@ spec:
   values:
     image:
       repository: ghcr.io/stakater/reloader
-      tag: v1.4.1@sha256:5bd3fc1c0bb2899ba1638edf806878dec6127c8de5b139e2461ca948606a43af
+      tag: v1.4.2@sha256:812a190d6d531b96e1451e6571b0e42edfbc9295ec101315a48f31bfe442f6eb
 
     reloader:
       ignoreNamespaces:
