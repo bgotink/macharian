@@ -44,7 +44,7 @@ spec:
           app:
             image:
               repository: ghcr.io/bgotink/koel
-              tag: 7.4.0@sha256:2094983f595d5a30b4271ea9a71afc680d2ef157bdb0c3c9ef28e715afdee22f
+              tag: 7.4.2@sha256:06d15f6d2dbdbcdd981c83f56cf35e3cb696264dc550b233e72fc53ac56cf5d5
             envFrom: &koelEnvFrom
               - configMapRef:
                     name: koel-env
@@ -73,14 +73,14 @@ spec:
           init-koel:
             image:
               repository: ghcr.io/bgotink/koel
-              tag: 7.4.0@sha256:2094983f595d5a30b4271ea9a71afc680d2ef157bdb0c3c9ef28e715afdee22f
+              tag: 7.4.2@sha256:06d15f6d2dbdbcdd981c83f56cf35e3cb696264dc550b233e72fc53ac56cf5d5
             envFrom: *koelEnvFrom
             command: ["bash", "-c", "php artisan koel:init --no-assets --no-scheduler || ( cat storage/logs/laravel.log; exit 1 )"]
         containers:
           app:
             image:
               repository: ghcr.io/bgotink/koel
-              tag: 7.4.0@sha256:2094983f595d5a30b4271ea9a71afc680d2ef157bdb0c3c9ef28e715afdee22f
+              tag: 7.4.2@sha256:06d15f6d2dbdbcdd981c83f56cf35e3cb696264dc550b233e72fc53ac56cf5d5
             envFrom: *koelEnvFrom
             probes:
               liveness: &probe
