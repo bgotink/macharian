@@ -166,11 +166,11 @@ endpoints:
   - <<: *external-internal-only
     name: Pi-hole
     url: https://dns.${SECRET_HOST}
-  - <<: *internal-internal-only
+  - <<: *internal-externally-available
     group: non-k8s
     name: HomeAssistant
     url: https://home-assistant.${SECRET_HOST}
-  - <<: *external-internal-only
+  - <<: *external-externally-available
     name: HomeAssistant
     url: https://home-assistant.${SECRET_HOST}
   - <<: *internal-internal-only
