@@ -5,7 +5,7 @@ resources:
 - ./stakater-reload.yaml
 - ./helm/authentik-charts.yaml
 - ./helm/bitnami-charts.yaml
-- ./helm/bjw-s.yaml
+- ./helm/bjw-s-labs.yaml
 - ./helm/cloudnative-pg.yaml
 - ./helm/collabora-online.yaml
 - ./helm/hajimari.yaml
