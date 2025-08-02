@@ -14,5 +14,4 @@ resources:
 - ./qbittorrent.yaml
 - ./lidarr.yaml
 - ./navidrome.yaml
-- ./koel.yaml
 - ../_shared/private-registry-secrets.yaml
