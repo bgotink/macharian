@@ -6,4 +6,4 @@ metadata:
 spec:
   images:
     - major: 16
-      image: modelzai/pgvectors-vchord:0.2.1-0.2.2-16
+      image: modelzai/pgvectors-vchord:0.3.0-0.2.2-16
