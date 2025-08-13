@@ -7,3 +7,15 @@ spec:
   images:
     - major: 16
       image: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3@sha256:bf0c731659d3eb1d7df97cb9ee85672627cb574c1679175013a06ac1062ecbe0
+    - major: 17
+      image: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.3@sha256:acebb38ca309938bc05ce268b019c98aa718cb554dd54e4443654d9d00a0d498
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: ImageCatalog
+metadata:
+  name: postgresql
+  namespace: default
+spec:
+  images:
+    - major: 17
+      image: ghcr.io/cloudnative-pg/postgresql:17.5-minimal-bookworm@sha256:560820039d5d64c244507eb5be81624d92e9144ab2035852404991cf1271a376

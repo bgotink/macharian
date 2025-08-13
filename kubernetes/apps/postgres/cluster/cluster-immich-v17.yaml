@@ -1,7 +1,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: main
+  name: immich-v17
 spec:
   instances: 2
 
@@ -9,7 +9,7 @@ spec:
     apiGroup: postgresql.cnpg.io
     kind: ImageCatalog
     name: postgresql-with-vectors
-    major: 16
+    major: 17
 
   primaryUpdateStrategy: unsupervised
 
@@ -42,7 +42,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://postgresql/
       endpointURL: ${S3_HOST}
-      serverName: postgres-server
+      serverName: immich-v17
       s3Credentials:
         accessKeyId:
           name: postgres-secrets

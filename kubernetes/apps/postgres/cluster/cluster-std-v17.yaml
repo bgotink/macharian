@@ -1,20 +1,19 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: main
+  name: std-v17
 spec:
   instances: 2
 
   imageCatalogRef:
     apiGroup: postgresql.cnpg.io
     kind: ImageCatalog
-    name: postgresql-with-vectors
-    major: 16
+    name: postgresql
+    major: 17
 
   primaryUpdateStrategy: unsupervised
 
   postgresql:
-    shared_preload_libraries: ["vchord.so"]
     parameters:
       pg_stat_statements.max: "10000"
       pg_stat_statements.track: all
@@ -42,7 +41,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://postgresql/
       endpointURL: ${S3_HOST}
-      serverName: postgres-server
+      serverName: std-v17
       s3Credentials:
         accessKeyId:
           name: postgres-secrets
