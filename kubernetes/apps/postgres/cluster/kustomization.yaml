@@ -4,6 +4,7 @@ resources:
 - ./catalogs.yaml
 - ./main-cluster.yaml
 - ./cluster-std-v17.yaml
+- ./cluster-auth-v17.yaml
 - ./cluster-immich-v17.yaml
 - ./secrets.yaml
 - ./scheduled-backup.yaml
