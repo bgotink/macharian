@@ -69,7 +69,7 @@ has_command age || sudo apt install -y age
 if ! has_command sops; then
 	pushd /tmp >/dev/null 2>&1
 	# renovate: datasource=github-releases depName=getsops/sops
-	wget -O sops.deb -L https://github.com/getsops/sops/releases/download/v3.8.1/sops_3.8.1_amd64.deb
+	wget -O sops.deb -L https://github.com/getsops/sops/releases/download/v3.10.2/sops_3.10.2_amd64.deb
 	sudo dpkg -i sops.deb
 	popd >/dev/null 2>&1
 fi
