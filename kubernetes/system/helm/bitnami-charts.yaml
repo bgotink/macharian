@@ -1,9 +1,27 @@
 apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
+kind: OCIRepository
 metadata:
-  name: bitnami-charts
+  name: bitnami-chart-redis
   namespace: flux-system
 spec:
   interval: 2h
-  url: https://charts.bitnami.com/bitnami
-  timeout: 3m
+  url: oci://registry-1.docker.io/bitnamicharts/redis
+  layerSelector:
+    mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
+    operation: copy
+  ref:
+    tag: 22.0.3
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: bitnami-chart-mongodb
+  namespace: flux-system
+spec:
+  interval: 2h
+  url: oci://registry-1.docker.io/bitnamicharts/mongodb
+  layerSelector:
+    mediaType: "application/vnd.cncf.helm.chart.content.v1.tar+gzip"
+    operation: copy
+  ref:
+    tag: 16.5.44
