@@ -5,8 +5,6 @@ metadata:
   namespace: default
 spec:
   images:
-    - major: 16
-      image: ghcr.io/tensorchord/cloudnative-vectorchord:16.9-0.4.3@sha256:bf0c731659d3eb1d7df97cb9ee85672627cb574c1679175013a06ac1062ecbe0
     - major: 17
       image: ghcr.io/tensorchord/cloudnative-vectorchord:17.5-0.4.3@sha256:acebb38ca309938bc05ce268b019c98aa718cb554dd54e4443654d9d00a0d498
 ---
