@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-labs
@@ -21,6 +21,10 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    global:
+      # Added to keep PVC names aligned in migration app-template v3 to v4
+      alwaysAppendIdentifierToResourceName: true
+
     controllers:
       overseerr:
         annotations:
@@ -65,13 +69,13 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile: { type: RuntimeDefault }
     service:
-      app:
+      overseerr:
         controller: overseerr
         ports:
           http:
             port: *port
     ingress:
-      app:
+      overseerr:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/appName: Media Requests
@@ -91,7 +95,7 @@ spec:
             paths:
               - path: /
                 service:
-                  identifier: app
+                  identifier: overseerr
                   port: http
     persistence:
       config:
