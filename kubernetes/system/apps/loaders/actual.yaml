@@ -1,0 +1,16 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: actual
+  namespace: flux-system
+spec:
+  targetNamespace: actual
+  interval: 10m
+  path: ./kubernetes/apps/actual
+  dependsOn:
+  - name: ingress
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system

@@ -1,0 +1,104 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: actual
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 3.7.3
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-labs
+        namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  values:
+    controllers:
+      actual:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          app:
+            image:
+              repository: ghcr.io/actualbudget/actual
+              tag: 25.8.0-alpine@sha256:11435c68f81385ec75cf7d7543cc2b4429c6e14ed518aff8ef9a9c274b8692e1
+            env:
+              TZ: ${TIMEZONE}
+              ACTUAL_PORT: &port 5006
+              ACTUAL_ALLOWED_LOGIN_METHODS: openid
+              ACTUAL_OPENID_ENFORCE: true
+              ACTUAL_TOKEN_EXPIRATION: openid-provider
+              ACTUAL_OPENID_SERVER_HOSTNAME: https://actual.${SECRET_HOST}
+            envFrom:
+              - secretRef:
+                  name: actual-secrets
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probe
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 100m
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 9087
+        runAsGroup: 9087
+        fsGroup: 9087
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: actual
+        ports:
+          http:
+            port: *port
+    ingress:
+      app:
+        # annotations:
+        #   hajimari.io/enable: "true"
+        #   hajimari.io/appName: Actual
+        #   hajimari.io/instance: "user,admin"
+        #   hajimari.io/group: "apps"
+        #   hajimari.io/icon: ???
+        hosts:
+          - host: actual.${SECRET_HOST}
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
+    persistence:
+      data:
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOncePod
+        retain: true
+        size: 10Gi
+      tmp:
+        type: emptyDir
