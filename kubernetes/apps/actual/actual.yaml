@@ -29,7 +29,7 @@ spec:
           app:
             image:
               repository: ghcr.io/actualbudget/actual
-              tag: 25.8.0-alpine@sha256:11435c68f81385ec75cf7d7543cc2b4429c6e14ed518aff8ef9a9c274b8692e1
+              tag: 25.8.0-alpine@sha256:cb837e06bce4909d01af9c155da850f6aa9bb62819e4aa372f129882a1509c9f
             env:
               TZ: ${TIMEZONE}
               ACTUAL_PORT: &port 5006
