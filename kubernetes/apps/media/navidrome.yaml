@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.7.3
+      version: 4.2.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-labs
@@ -21,6 +21,10 @@ spec:
       strategy: rollback
       retries: 3
   values:
+    global:
+      # Added to keep PVC names aligned in migration app-template v3 to v4
+      alwaysAppendIdentifierToResourceName: true
+
     controllers:
       navidrome:
         annotations:
@@ -77,13 +81,13 @@ spec:
         supplementalGroups: [44, 10000]
         seccompProfile: { type: RuntimeDefault }
     service:
-      app:
+      navidrome:
         controller: navidrome
         ports:
           http:
             port: *port
     ingress:
-      app:
+      navidrome:
         annotations:
           hajimari.io/enable: "true"
           hajimari.io/appName: Music
@@ -95,7 +99,7 @@ spec:
             paths:
               - path: /
                 service:
-                  identifier: app
+                  identifier: navidrome
                   port: http
     persistence:
       data:
