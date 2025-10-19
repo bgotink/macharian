@@ -33,23 +33,6 @@ spec:
   #   recovery:
   #     source: postgres-backup
 
-  backup:
-    retentionPolicy: 30d
-    barmanObjectStore:
-      wal:
-        compression: bzip2
-        maxParallel: 8
-      destinationPath: s3://postgresql/
-      endpointURL: ${S3_HOST}
-      serverName: auth-v17
-      s3Credentials:
-        accessKeyId:
-          name: postgres-secrets
-          key: S3_ACCESS_KEY
-        secretAccessKey:
-          name: postgres-secrets
-          key: S3_SECRET_KEY
-
   # externalClusters:
   #   - name: postgres-backup
   #     barmanObjectStore:
