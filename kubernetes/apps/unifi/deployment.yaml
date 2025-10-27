@@ -48,6 +48,8 @@ spec:
             value: '27017'
           - name: MONGO_DBNAME
             value: unifi
+          - name: SYSTEM_IP
+            value: 192.168.1.113
           envFrom:
           - secretRef:
               name: unifi-db-secrets
