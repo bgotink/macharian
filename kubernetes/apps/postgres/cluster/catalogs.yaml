@@ -16,4 +16,4 @@ metadata:
 spec:
   images:
     - major: 17
-      image: ghcr.io/cloudnative-pg/postgresql:17.6-minimal-bookworm@sha256:a06d5ab811eb4ebc95547d0fde39db7490279523056f884bc73b2d3a2d144941
+      image: ghcr.io/cloudnative-pg/postgresql:17.6-minimal-bookworm@sha256:4cbe79a05ae31043a04c060f50e4694fc932e1c33f7a63e54b9c7487480a481f
